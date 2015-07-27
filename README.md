@@ -2,7 +2,7 @@
 *Please note: sitepay is currently in its* **Request for Comment (RFC)** *phase*
 
 ### Overview
-sitepay is a way for any domain to publish where it will accept Bitcoin payments and receive messages related to those payments using DNS and HTTPS. Using sitepay, Bitcoin, and the Bitcoin Payment Protocol, any party can pay a domain securely and directly, with the ability to exchange payment metadata. It is made so sophisticated parties (e.g., other domains) can easily resolve payment locations in a standardized manner. 
+sitepay is a way for any domain to publish where it will accept Bitcoin payments using DNS and HTTPS. Using sitepay, Bitcoin, and the Bitcoin Payment Protocol, any party can pay a domain securely and directly, with the ability to exchange payment metadata. It is made so sophisticated parties (e.g., other domains) can easily resolve payment locations in a standardized manner. 
 
 sitepay works by defining a standard endpoint (by default, */epayment/bitcoin* at the *www* subdomain) where domains provide a BIP 70 handler to receive payments. sitepay also defines a way to make custom endpoints on that domain or on an external domain using one or more DNS TXT records.
 
@@ -49,6 +49,8 @@ We provide instructions for:
 
 #### For Domain Owners
 ##### Simple
+The following simple instructions are designed for a domain that would like a single endpoint to apply to all their subdomains.
+
 *Receive payments on your domain*
 
 Domain owners can receive payments by implementing [BIP 70](https://github.com/bitcoin/bips/blob/master/bip-0070.mediawiki) at the *www* subdomain of the */epayment/bitcoin* endpoint, secured by HTTPS/TLS 1.2 or better. This endpoint should only return PaymentRequests with the amount for each output set to 0 (this allows a payer to specify the payment amount).
@@ -70,6 +72,8 @@ Alternatively, the BIP 70 endpoint can be managed on a separate domain (allowing
   - Now payers who want to pay your domain, will assume you have a valid BIP 70 endpoint at https://xyz.example.com/some/path/bitcoin (with the trailing bitcoin now appended), where PaymentRequests will be signed with a wildcard X.509 certificate private key. These payers will verify that both the https certificate and the PaymentRequest signature are valid (e.g., not expired, not revoked).
 
 ##### Custom
+The custom instructions allow domains to specify different endpoints by subdomain, and require additional specificity.
+
 As a domain name owner, publishing your payment information requires a few steps: 
 
 1. Create a [BIP 70](https://github.com/bitcoin/bips/blob/master/bip-0070.mediawiki), sitepay-compliant endpoint
